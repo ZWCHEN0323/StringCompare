@@ -23,7 +23,7 @@
             font-size: 14px;
             margin-bottom: 25px;
         }
-        
+
         /* 區塊樣式 */
         .section-box {
             background: white;
@@ -43,13 +43,6 @@
             align-items: center;
         }
 
-        label {
-            font-weight: bold;
-            font-size: 14px;
-            display: block;
-            margin-bottom: 6px;
-        }
-
         textarea {
             width: 100%;
             height: 80px;
@@ -62,27 +55,20 @@
             box-sizing: border-box;
         }
 
-        /* 基準輸入框加大 */
-        #base-text {
-            height: 100px;
-            border: 2px solid #0969da;
-        }
-
         /* 待比對輸入框網格 */
         .compare-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 15px;
+            display: flex;
+            flex-direction:column;
+            gap: 10px;
         }
-        .compare-input-item {
-            background: #fafafa;
-            border: 1px solid #e1e4e8;
-            padding: 12px;
-            border-radius: 6px;
-            position: relative;
+        .compare-input-item{
+            display:flex;
+            align-items:flex-start;
+            gap:10px;
         }
         .remove-btn {
-            position: absolute;
+            position:static;
+            margin-left:10px;
             top: 10px;
             right: 12px;
             color: #cf222e;
@@ -132,15 +118,7 @@
             flex-direction: column;
             gap: 20px;
         }
-        .result-row {
-            display: flex;
-            gap: 15px;
-            background: white;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-        }
+
         .result-panel {
             flex: 1;
             padding: 12px;
@@ -185,12 +163,6 @@
 <div class="container">
     <h2>🎯 專業級多組文字精密比對工具</h2>
     <div class="subtitle">將多組不同的文字同時與「基準字串」進行字元級別的細緻對比。</div>
-    
-    <div class="section-box">
-        <div class="section-title">分組一：設定基本比對基準 (Base String)</div>
-        <label for="base-text">基準文字內容：</label>
-        <textarea id="base-text">今天天氣很好，我想去吃拉麵和喝飲料。</textarea>
-    </div>
 
     <div class="section-box">
         <div class="section-title">
@@ -198,25 +170,54 @@
             <span style="color: #24292e; font-size: 13px; font-weight: normal; cursor: pointer;" onclick="addCompareInput()">➕ 新增一組輸入框</span>
         </div>
         <div class="compare-grid" id="compare-inputs-container">
-            <div class="compare-input-item">
-                <label>待比對字串 #1</label>
-                <textarea class="compare-target">今天天氣特別好，我想去吃牛肉麵和喝冰飲料！</textarea>
+            <div class="compare-input-item" id="input-item-1">
+
+                <input
+                    type="radio"
+                    class="base-selector"
+                    name="baseString"
+                    checked>
+
+                <textarea class="compare-target" placeholder="請輸入文字..."></textarea>
+
+                <span class="remove-btn" onclick="removeCompareInput(1)">❌ </span>
+
             </div>
-            <div class="compare-input-item">
-                <label>待比對字串 #2</label>
-                <textarea class="compare-target">今天天氣很好，我想去吃拉麵。</textarea>
+            <div class="compare-input-item" id="input-item-2">
+
+                <input
+                    type="radio"
+                    class="base-selector"
+                    name="baseString">
+
+                <textarea class="compare-target" placeholder="請輸入文字..."></textarea>
+
+                <span class="remove-btn" onclick="removeCompareInput(2)">❌ </span>
+
             </div>
-            <div class="compare-input-item">
-                <label>待比對字串 #3</label>
-                <textarea class="compare-target">今天下大雨，我想留在家裡吃泡麵。</textarea>
+            <div class="compare-input-item" id="input-item-3">
+
+                <input
+                    type="radio"
+                    class="base-selector"
+                    name="baseString">
+
+                <textarea class="compare-target" placeholder="請輸入文字..."></textarea>
+
+                <span class="remove-btn" onclick="removeCompareInput(3)">❌ </span>
+
             </div>
-            <div class="compare-input-item">
-                <label>待比對字串 #4</label>
-                <textarea class="compare-target">今天天氣很好，我想去吃拉麵和喝飲料。</textarea>
-            </div>
-            <div class="compare-input-item">
-                <label>待比對字串 #5</label>
-                <textarea class="compare-target">今天天氣很好，我想要去吃日本拉麵與喝有糖飲料。</textarea>
+            <div class="compare-input-item" id="input-item-4">
+
+                <input
+                    type="radio"
+                    class="base-selector"
+                    name="baseString">
+
+                <textarea class="compare-target" placeholder="請輸入文字..."></textarea>
+
+                <span class="remove-btn" onclick="removeCompareInput(4)">❌ </span>
+
             </div>
         </div>
     </div>
@@ -239,23 +240,40 @@
 
     // 動態新增輸入框的功能
     function addCompareInput() {
-        inputCounter++;
-        const container = document.getElementById('compare-inputs-container');
-        const div = document.createElement('div');
-        div.className = 'compare-input-item';
-        div.id = `input-item-${inputCounter}`;
-        div.innerHTML = `
-            <label>待比對字串 #${inputCounter}</label>
-            <span class="remove-btn" onclick="removeCompareInput(${inputCounter})">❌ 刪除</span>
-            <textarea class="compare-target" placeholder="請輸入要對比的文字..."></textarea>
-        `;
-        container.appendChild(div);
-    }
 
-    // 刪除指定的輸入框
-    function removeCompareInput(id) {
-        const item = document.getElementById(`input-item-${id}`);
-        if (item) item.remove();
+        inputCounter++;
+
+        const div = document.createElement("div");
+
+        div.className = "compare-input-item";
+
+        div.id = `input-item-${inputCounter}`;
+
+        div.innerHTML = `
+
+            <input
+                type="radio"
+                class="base-selector"
+                name="baseString">
+
+            <textarea
+                class="compare-target"
+                placeholder="請輸入文字"></textarea>
+
+            <span
+                class="remove-btn"
+                onclick="removeCompareInput(${inputCounter})">
+
+                ❌
+
+            </span>
+
+        `;
+
+        document
+            .getElementById("compare-inputs-container")
+            .appendChild(div);
+
     }
 
     /* =====================================================================
@@ -266,7 +284,7 @@
         let t2 = Array.from(text2);
         let m = t1.length;
         let n = t2.length;
-        
+
         let dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
         for (let i = 1; i <= m; i++) {
             for (let j = 1; j <= n; j++) {
@@ -277,7 +295,7 @@
                 }
             }
         }
-        
+
         let diff = [];
         let i = m, j = n;
         while (i > 0 || j > 0) {
@@ -292,7 +310,7 @@
                 i--;
             }
         }
-        
+
         let mergedDiff = [];
         if (diff.length > 0) {
             let currentType = diff[0][0];
@@ -319,10 +337,32 @@
        多組比對主控制邏輯
        ===================================================================== */
     function runMultiDiff() {
-        const baseText = document.getElementById('base-text').value;
-        const targetElements = document.getElementsByClassName('compare-target');
+        const radios =
+        [
+        ...document.querySelectorAll(".base-selector")
+        ];
+
+        const textareas =
+        [
+        ...document.querySelectorAll(".compare-target")
+        ];
+
+        const baseIndex =
+        radios.findIndex(r=>r.checked);
+
+        if(baseIndex==-1){
+
+            alert("請選擇基準文字");
+
+            return;
+
+        }
+
+        const baseText =
+        textareas[baseIndex].value;
+        const targetElements = textareas;
         const masterContainer = document.getElementById('results-master-container');
-        
+
         // 清空舊的結果
         masterContainer.innerHTML = "";
 
@@ -334,7 +374,9 @@
         // 依序遍歷每一個輸入框進行比對
         for (let idx = 0; idx < targetElements.length; idx++) {
             const targetText = targetElements[idx].value;
-            
+            if(idx===baseIndex)
+                    continue;
+
             // 執行精密比對 (Base vs 當前的 Target)
             const diffs = simpleCharDiff(baseText, targetText);
 
@@ -360,7 +402,10 @@
             rowDiv.className = 'result-row';
             rowDiv.innerHTML = `
                 <div style="flex: 0 0 120px; font-weight: bold; color: #57606a; display: flex; align-items: center;">
-                    項目 #${idx + 1} 結果：
+                    基準 #${baseIndex+1}
+                    VS
+
+                    第 ${idx+1} 筆
                 </div>
                 <div class="result-panel">
                     <div class="result-panel-title" style="color: #cf222e;">基準對照 (- 失去的字)</div>
@@ -373,6 +418,70 @@
             `;
             masterContainer.appendChild(rowDiv);
         }
+    }
+    document.addEventListener("paste",function(e){
+
+        if(!e.target.classList.contains("compare-target"))
+            return;
+
+        const text =
+            e.clipboardData.getData("text");
+
+        const cells =
+            text
+            .split(/\r?\n/)
+            .flatMap(r=>r.split("\t"));
+
+        if(cells.length<=1)
+            return;
+
+        e.preventDefault();
+
+        const inputs =
+        [...document.querySelectorAll(".compare-target")];
+
+        let start =
+            inputs.indexOf(e.target);
+
+        while(inputs.length<start+cells.length){
+
+            addCompareInput();
+
+            inputs.push(
+                document.querySelectorAll(".compare-target")[inputs.length]
+            );
+
+        }
+
+        cells.forEach((cell,i)=>{
+
+            inputs[start+i].value=cell;
+
+        });
+
+    });
+    function removeCompareInput(id){
+
+        const item=document.getElementById(`input-item-${id}`);
+
+        if(!item)
+            return;
+
+        const radio=item.querySelector(".base-selector");
+
+        const wasChecked=radio.checked;
+
+        item.remove();
+
+        if(wasChecked){
+
+            const first=document.querySelector(".base-selector");
+
+            if(first)
+                first.checked=true;
+
+        }
+
     }
 </script>
 
