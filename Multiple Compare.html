@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>多組文字精細比對工具</title>
+    <title>Multiple sets of fine text comparison tools</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -24,7 +24,6 @@
             margin-bottom: 25px;
         }
 
-        /* 區塊樣式 */
         .section-box {
             background: white;
             border: 1px solid #d1d5db;
@@ -55,7 +54,6 @@
             box-sizing: border-box;
         }
 
-        /* 待比對輸入框網格 */
         .compare-grid {
             display: flex;
             flex-direction:column;
@@ -80,7 +78,6 @@
             text-decoration: underline;
         }
 
-        /* 按鈕樣式 */
         .btn-group {
             display: flex;
             gap: 10px;
@@ -112,7 +109,6 @@
             background-color: #f3f4f6;
         }
 
-        /* 結果渲染樣式 */
         .results-container {
             display: flex;
             flex-direction: column;
@@ -139,7 +135,6 @@
             font-size: 13px;
         }
 
-        /* 紅綠標記 */
         .del {
             background-color: #ffebe9;
             text-decoration: line-through;
@@ -161,13 +156,13 @@
 <body>
 
 <div class="container">
-    <h2>🎯 專業級多組文字精密比對工具</h2>
-    <div class="subtitle">將多組不同的文字同時與「基準字串」進行字元級別的細緻對比。</div>
+    <h2>🎯 Professional-grade multi-group precise text comparison tool</h2>
+    <div class="subtitle">Multiple different sets of text are simultaneously compared with a "baseline string" at the character level.</div>
 
     <div class="section-box">
         <div class="section-title">
-            <span>分組二：設定多組待比對字串 (Compare Targets)</span>
-            <span style="color: #24292e; font-size: 13px; font-weight: normal; cursor: pointer;" onclick="addCompareInput()">➕ 新增一組輸入框</span>
+            <span>Group 2: Set multiple sets of strings to be compared (Compare Targets)</span>
+            <span style="color: #24292e; font-size: 13px; font-weight: normal; cursor: pointer;" onclick="addCompareInput()">➕ Add a new set of input boxes</span>
         </div>
         <div class="compare-grid" id="compare-inputs-container">
             <div class="compare-input-item" id="input-item-1">
@@ -178,7 +173,7 @@
                     name="baseString"
                     checked>
 
-                <textarea class="compare-target" placeholder="請輸入文字..."></textarea>
+                <textarea class="compare-target" placeholder="Please enter text..."></textarea>
 
                 <span class="remove-btn" onclick="removeCompareInput(1)">❌ </span>
 
@@ -190,7 +185,7 @@
                     class="base-selector"
                     name="baseString">
 
-                <textarea class="compare-target" placeholder="請輸入文字..."></textarea>
+                <textarea class="compare-target" placeholder="Please enter text..."></textarea>
 
                 <span class="remove-btn" onclick="removeCompareInput(2)">❌ </span>
 
@@ -202,7 +197,7 @@
                     class="base-selector"
                     name="baseString">
 
-                <textarea class="compare-target" placeholder="請輸入文字..."></textarea>
+                <textarea class="compare-target" placeholder="Please enter text..."></textarea>
 
                 <span class="remove-btn" onclick="removeCompareInput(3)">❌ </span>
 
@@ -214,7 +209,7 @@
                     class="base-selector"
                     name="baseString">
 
-                <textarea class="compare-target" placeholder="請輸入文字..."></textarea>
+                <textarea class="compare-target" placeholder="Please enter text..."></textarea>
 
                 <span class="remove-btn" onclick="removeCompareInput(4)">❌ </span>
 
@@ -223,14 +218,14 @@
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-secondary" onclick="addCompareInput()">➕ 再新增一組輸入框</button>
-        <button class="btn btn-primary" onclick="runMultiDiff()">🚀 開始全面精密比對</button>
+        <button class="btn btn-secondary" onclick="addCompareInput()">➕ Add another set of input boxes</button>
+        <button class="btn btn-primary" onclick="runMultiDiff()">🚀 Start Comprehensive and Precise Comparison</button>
     </div>
 
     <div class="section-box">
-        <div class="section-title">分組三：全面比對結果報告</div>
+        <div class="section-title">Group 3: Comprehensive Comparison Results Report</div>
         <div class="results-container" id="results-master-container">
-            <div class="dimmed">尚未進行比對，請點擊上方「開始全面精密比對」按鈕。</div>
+            <div class="dimmed">The comparison has not yet been performed. Please click the "Start Comprehensive and Precise Comparison" button above.</div>
         </div>
     </div>
 </div>
@@ -238,7 +233,6 @@
 <script>
     let inputCounter = 5;
 
-    // 動態新增輸入框的功能
     function addCompareInput() {
 
         inputCounter++;
@@ -258,7 +252,7 @@
 
             <textarea
                 class="compare-target"
-                placeholder="請輸入文字"></textarea>
+                placeholder="Please enter text"></textarea>
 
             <span
                 class="remove-btn"
@@ -352,7 +346,7 @@
 
         if(baseIndex==-1){
 
-            alert("請選擇基準文字");
+            alert("Please select base text");
 
             return;
 
@@ -363,11 +357,10 @@
         const targetElements = textareas;
         const masterContainer = document.getElementById('results-master-container');
 
-        // 清空舊的結果
         masterContainer.innerHTML = "";
 
         if (targetElements.length === 0) {
-            masterContainer.innerHTML = '<div class="dimmed" style="color:red;">請至少保留一組待比對字串！</div>';
+            masterContainer.innerHTML = '<div class="dimmed" style="color:red;">Please retain at least one set of strings to be compared!</div>';
             return;
         }
 
@@ -402,18 +395,18 @@
             rowDiv.className = 'result-row';
             rowDiv.innerHTML = `
                 <div style="flex: 0 0 120px; font-weight: bold; color: #57606a; display: flex; align-items: center;">
-                    基準 #${baseIndex+1}
+                    Base #${baseIndex+1}
                     VS
 
-                    第 ${idx+1} 筆
+                    The ${idx+1}th entry
                 </div>
                 <div class="result-panel">
-                    <div class="result-panel-title" style="color: #cf222e;">基準對照 (- 失去的字)</div>
-                    <div>${leftHtml || '<span class="dimmed">(空)</span>'}</div>
+                    <div class="result-panel-title" style="color: #cf222e;">Benchmark (- missing words)</div>
+                    <div>${leftHtml || '<span class="dimmed">(Empty)</span>'}</div>
                 </div>
                 <div class="result-panel">
-                    <div class="result-panel-title" style="color: #1a7f37;">目標對照 (+ 新增的字)</div>
-                    <div>${rightHtml || '<span class="dimmed">(空)</span>'}</div>
+                    <div class="result-panel-title" style="color: #1a7f37;">Target Comparison (+ Newly Added Words)</div>
+                    <div>${rightHtml || '<span class="dimmed">(Empty)</span>'}</div>
                 </div>
             `;
             masterContainer.appendChild(rowDiv);
